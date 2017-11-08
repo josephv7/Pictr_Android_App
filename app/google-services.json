@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "498213919849",
+    "firebase_url": "https://microproject-aede7.firebaseio.com",
+    "project_id": "microproject-aede7",
+    "storage_bucket": "microproject-aede7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:498213919849:android:c37b94fff5939a17",
+        "android_client_info": {
+          "package_name": "rm.com.microproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "498213919849-5c9jmb0s6l0c58mviu6q8jtllaf0nl3o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "rm.com.microproject",
+            "certificate_hash": "f8948a51052ea337109e505d3c169dfb5a81efb8"
+          }
+        },
+        {
+          "client_id": "498213919849-gkq712kkql0adfed5pmtvvfae9kda1gj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOAjEKPuBmMgBn4VemrJq2O_Anpess4yI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "498213919849-gkq712kkql0adfed5pmtvvfae9kda1gj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
