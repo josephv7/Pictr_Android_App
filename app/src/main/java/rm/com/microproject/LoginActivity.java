@@ -135,7 +135,15 @@ public class LoginActivity extends AppCompatActivity {
     private void gotImageUrl(String username){
 
 
-        Toast.makeText(this,imageArray.get(0).getImageId(), Toast.LENGTH_SHORT).show();
+       //Toast.makeText(this,imageArray.get(0).getImageId(), Toast.LENGTH_SHORT).show();
+        DBHandler dbHandler = new DBHandler(this);
+
+        for (int j = 0;j < imageArray.size();j++)
+        {
+              dbHandler.addImage(imageArray.get(j),username);
+              Log.d("Sql added",Integer.toString(j));
+        }
+
 
 
 
