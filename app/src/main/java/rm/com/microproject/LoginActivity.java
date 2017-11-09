@@ -14,11 +14,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LoginActivity extends AppCompatActivity {
 
     EditText username,password;
     Button login;
     String n,p,url;
+    private List<ImageDetails> imageArray;
+    int i;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +32,11 @@ public class LoginActivity extends AppCompatActivity {
 
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference ref = database.getReference("UserCredentials");
+        final DatabaseReference ref = database.getReference("UserCredential");
         final DatabaseReference rootRef = database.getReference();
+
+
+        imageArray = new ArrayList<ImageDetails>();
 
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
@@ -41,7 +49,8 @@ public class LoginActivity extends AppCompatActivity {
                 n = username.getText().toString().toLowerCase();
                 p = password.getText().toString();
 
-                if (!(username.equals("") || password.equals(""))) {
+                if ((!username.equals("") || password.equals(""))) {
+
 
 
 
@@ -60,8 +69,26 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-                                        url = dataSnapshot.getValue(String.class);
-                                        gotImageUrl();
+
+                                        ////
+
+                                        i = 0;
+
+                                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+
+                                            Log.d("here","...........");
+
+                                            ImageDetails imageDetails = snapshot.getValue(ImageDetails.class);
+                                            imageArray.add(imageDetails);
+                                            //Log.d("Fetched Image Id",imageArray.get(i).getImageId());
+                                           // Log.d("Fetched Image url",imageArray.get(i).getImageUrl());
+
+                                            i++;
+                                        }
+
+
+
+                                        gotImageUrl(n);
 
 
                                     }
@@ -105,10 +132,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void gotImageUrl(){
+    private void gotImageUrl(String username){
 
 
-        Toast.makeText(this, url, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,imageArray.get(0).getImageId(), Toast.LENGTH_SHORT).show();
     }
 
 

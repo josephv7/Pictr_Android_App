@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="UserName"
+        android:text="user1"
         tools:layout_editor_absoluteX="113dp"
         tools:layout_editor_absoluteY="34dp" />
 
@@ -22,7 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:text="pass1" />
 
     <Button
         android:id="@+id/login"
