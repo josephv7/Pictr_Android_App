@@ -136,6 +136,9 @@ public class LoginActivity extends AppCompatActivity {
 
 
         Toast.makeText(this,imageArray.get(0).getImageId(), Toast.LENGTH_SHORT).show();
+
+
+        //insert to sql
     }
 
 
