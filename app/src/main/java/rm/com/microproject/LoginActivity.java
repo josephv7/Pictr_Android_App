@@ -1,5 +1,6 @@
 package rm.com.microproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -156,6 +157,9 @@ public class LoginActivity extends AppCompatActivity {
         //Log.d("dropped","..........");
 
 
+        Intent uploadIntent = new Intent(LoginActivity.this,Upload.class);
+        uploadIntent.putExtra("username",n);
+        startActivity(uploadIntent);
 
 
 

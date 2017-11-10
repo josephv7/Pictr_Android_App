@@ -71,6 +71,10 @@ public class Upload extends AppCompatActivity {
         img = findViewById(R.id.img);
 
 
+        Intent collectUserName = getIntent();
+        userName = collectUserName.getStringExtra("username");
+
+
 
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
@@ -102,6 +106,13 @@ public class Upload extends AppCompatActivity {
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
                         Toast.makeText(Upload.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
+
+
+                        String id = "imageId";
+                        String url = "imageurl";
+
+
+
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
