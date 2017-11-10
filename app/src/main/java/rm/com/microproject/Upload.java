@@ -31,12 +31,19 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Upload extends AppCompatActivity {
 
 
     Button btnLoad,btnCamera,btnSubmit;
     ImageView img;
+
+    DBHandler dbHandler;
+    ImageDetails imageDetails;
+    List<ImageDetails> imageList;
+    int flag = 0;
 
     private int LOAD_IMAGE = 1;
     private int TAKE_CAMERA = 2;
@@ -71,8 +78,14 @@ public class Upload extends AppCompatActivity {
         img = findViewById(R.id.img);
 
 
+        dbHandler = new DBHandler(getApplicationContext());
+        imageList = new ArrayList<ImageDetails>();
+
+
+
         Intent collectUserName = getIntent();
         userName = collectUserName.getStringExtra("username");
+        imageList = dbHandler.getAllImages();
 
 
 
@@ -111,9 +124,20 @@ public class Upload extends AppCompatActivity {
                         String id = "imageId";
                         String url = "imageurl";
 
-                        ImageDetails imageDetails = new ImageDetails(id,url);
-                        DBHandler dbHandler = new DBHandler(getApplicationContext());
-                        dbHandler.addImage(imageDetails,userName);
+
+
+
+                        for (int i = 0;i < imageList.size();i++) {
+                            if (id.equals(imageList.get(i).getImageId())){
+                                flag = 1;
+                                break;
+                            }
+
+                        }
+                        if (flag == 0) {
+                            imageDetails = new ImageDetails(id, url);
+                            dbHandler.addImage(imageDetails, userName);
+                        }
 
 
 
