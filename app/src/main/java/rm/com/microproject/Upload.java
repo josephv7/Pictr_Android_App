@@ -111,6 +111,11 @@ public class Upload extends AppCompatActivity {
                         String id = "imageId";
                         String url = "imageurl";
 
+                        ImageDetails imageDetails = new ImageDetails(id,url);
+                        DBHandler dbHandler = new DBHandler(getApplicationContext());
+                        dbHandler.addImage(imageDetails,userName);
+
+
 
 
                     }
