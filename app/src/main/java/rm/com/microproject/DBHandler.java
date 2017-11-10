@@ -28,6 +28,13 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+//        String createImageTable = "CREATE TABLE IF NOT EXISTS " + tableName + "(" +userId + " TEXT, " + imageId + " TEXT," + imageUrl + " TEXT" + ")";
+//        db.execSQL(createImageTable);
+
+    }
+
+    public void createTable(){
+        SQLiteDatabase db = this.getWritableDatabase();
         String createImageTable = "CREATE TABLE IF NOT EXISTS " + tableName + "(" +userId + " TEXT, " + imageId + " TEXT," + imageUrl + " TEXT" + ")";
         db.execSQL(createImageTable);
 
@@ -35,6 +42,11 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+//        db.execSQL("DROP TABLE IF EXISTS "+tableName);
+    }
+
+    public void onDrop(){
+        SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DROP TABLE IF EXISTS "+tableName);
     }
 
@@ -52,7 +64,7 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    /*public int getStudentsCount(){
+    public int getImagesCount(){
         String query = "SELECT * FROM " + tableName;
         SQLiteDatabase db = this.getReadableDatabase();
         //define cursor
@@ -61,7 +73,7 @@ public class DBHandler extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return count;
-    }*/
+    }
 
     public List<ImageDetails> getAllImages(){
         List<ImageDetails> imagesqlList = new ArrayList<ImageDetails>();

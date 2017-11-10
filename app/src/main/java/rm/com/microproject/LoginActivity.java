@@ -23,7 +23,8 @@ public class LoginActivity extends AppCompatActivity {
     Button login;
     String n,p,url;
     private List<ImageDetails> imageArray;
-    int i;
+    DBHandler dbHandler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,9 @@ public class LoginActivity extends AppCompatActivity {
         final DatabaseReference ref = database.getReference("UserCredential");
         final DatabaseReference rootRef = database.getReference();
 
+
+        dbHandler = new DBHandler(this);
+        dbHandler.createTable();
 
         imageArray = new ArrayList<ImageDetails>();
 
@@ -72,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                         ////
 
-                                        i = 0;
+
 
                                         for(DataSnapshot snapshot : dataSnapshot.getChildren()){
 
@@ -83,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                                             //Log.d("Fetched Image Id",imageArray.get(i).getImageId());
                                            // Log.d("Fetched Image url",imageArray.get(i).getImageUrl());
 
-                                            i++;
+
                                         }
 
 
@@ -136,13 +140,20 @@ public class LoginActivity extends AppCompatActivity {
 
 
        //Toast.makeText(this,imageArray.get(0).getImageId(), Toast.LENGTH_SHORT).show();
-        DBHandler dbHandler = new DBHandler(this);
+
 
         for (int j = 0;j < imageArray.size();j++)
         {
               dbHandler.addImage(imageArray.get(j),username);
               Log.d("Sql added",Integer.toString(j));
         }
+        int count = dbHandler.getImagesCount();
+        Log.d("count",Integer.toString(count));
+
+
+
+        //dbHandler.onDrop();
+        //Log.d("dropped","..........");
 
 
 
