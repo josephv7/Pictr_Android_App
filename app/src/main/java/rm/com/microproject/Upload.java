@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ public class Upload extends AppCompatActivity {
 
     Button btnLoad,btnCamera,btnSubmit;
     ImageView img;
+    EditText id;
 
     DBHandler dbHandler;
     ImageDetails imageDetails;
@@ -75,8 +77,10 @@ public class Upload extends AppCompatActivity {
         btnLoad = findViewById(R.id.btnLoad);
         btnCamera = findViewById(R.id.btnCamera);
         btnSubmit = findViewById(R.id.btnSubmit);
+
         img = findViewById(R.id.img);
 
+        id = findViewById(R.id.id);
 
         dbHandler = new DBHandler(getApplicationContext());
         imageList = new ArrayList<ImageDetails>();
@@ -85,8 +89,8 @@ public class Upload extends AppCompatActivity {
 
         Intent collectUserName = getIntent();
         userName = collectUserName.getStringExtra("username");
-        imageList = dbHandler.getAllImages();
 
+        imageList = dbHandler.getAllImages();
 
 
 
@@ -105,50 +109,87 @@ public class Upload extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                metadata = new StorageMetadata.Builder()
-                        .setContentType("image/jpg")
-                        .setCustomMetadata("User",userName)
-                        .setCustomMetadata("ImageId",imageId)
-                        .build();
+                imageId = id.getText().toString().toLowerCase();
 
-
-                StorageReference sRef = mStorageRef.child(userName).child(imageId + "__" + uploadUri.getLastPathSegment());
-
-                sRef.putFile(uploadUri,metadata).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                        Toast.makeText(Upload.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
-
-
-                        String id = "imageId";
-                        String url = "imageurl";
+                if(!imageId.equals("")){
 
 
 
+                    for (int i = 0;i < imageList.size();i++) {
+                        Log.d("inside","checking duplicate");
+//                        Log.d("idjv",imageList.get(i).getImageId());
+                        if (imageId.equals(imageList.get(i).getImageId())){
 
-                        for (int i = 0;i < imageList.size();i++) {
-                            if (id.equals(imageList.get(i).getImageId())){
-                                flag = 1;
-                                break;
+                            //this is not working
+//                        if (imageId.equals("jv")){
+                            flag = 1;
+                            Log.d("Found","image in db");
+                            break;
+                        }
+
+                    }
+
+
+                    if(flag == 0){
+
+
+
+
+
+
+                        metadata = new StorageMetadata.Builder()
+                                .setContentType("image/jpg")
+                                .setCustomMetadata("User",userName)
+                                .setCustomMetadata("ImageId",imageId)
+                                .build();
+
+
+                        StorageReference sRef = mStorageRef.child(userName).child(imageId);
+
+                        sRef.putFile(uploadUri,metadata).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                                Toast.makeText(Upload.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
+
+
+//                                if (flag == 0) {
+                                    imageDetails = new ImageDetails(imageId,taskSnapshot.getDownloadUrl().toString());
+                                    dbHandler.addImage(imageDetails, userName);
+
+                                    String uploadId = mDatabaseRef.push().getKey();
+                                    mDatabaseRef.child(uploadId).setValue(imageDetails);
+
+//                                }
+                                //extra safety ? :p
+
+
+
+
                             }
-
-                        }
-                        if (flag == 0) {
-                            imageDetails = new ImageDetails(id, url);
-                            dbHandler.addImage(imageDetails, userName);
-                        }
-
-
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(Upload.this,"Uh-oh, an error occurred!",Toast.LENGTH_LONG).show();
+                            }
+                        });
 
 
+
+                    }else{
+                        Toast.makeText(Upload.this, "Id Already Exists!!", Toast.LENGTH_SHORT).show();
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(Upload.this,"Uh-oh, an error occurred!",Toast.LENGTH_LONG).show();
-                    }
-                });
+
+
+
+
+
+
+                }else{
+                    Toast.makeText(Upload.this, "Enter Image Id", Toast.LENGTH_SHORT).show();
+                }
+
+
             }
         });
 

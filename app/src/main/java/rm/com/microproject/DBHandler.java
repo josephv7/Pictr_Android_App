@@ -86,8 +86,8 @@ public class DBHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 ImageDetails imageDetails = new ImageDetails();
-                imageDetails.setImageId(cursor.getString(0));
-                imageDetails.setImageUrl(cursor.getString(1));
+                imageDetails.setImageId(cursor.getString(1));
+                imageDetails.setImageUrl(cursor.getString(2));
 
                 imagesqlList.add(imageDetails);
             } while (cursor.moveToNext());
