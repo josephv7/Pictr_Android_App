@@ -75,22 +75,21 @@ public class LoginActivity extends AppCompatActivity {
                         } else {
                             if (dataSnapshot.getValue(String.class).equals(p)) {
 
+
+
+
+
                                 //adding shared preferences
-
                                 editor.putString("userName",n);
-
-
-
+                                editor.putBoolean("loggedIn",true);
                                 ///////
+
+
+
+
                                 readData(rootRef.child(n), new OnGetDataListener() {
                                     @Override
                                     public void onSuccess(DataSnapshot dataSnapshot) {
-
-
-
-
-                                        ////
-
 
 
                                         for(DataSnapshot snapshot : dataSnapshot.getChildren()){
@@ -154,7 +153,6 @@ public class LoginActivity extends AppCompatActivity {
     private void gotImageUrl(String username){
 
 
-       //Toast.makeText(this,imageArray.get(0).getImageId(), Toast.LENGTH_SHORT).show();
 
 
         for (int j = 0;j < imageArray.size();j++)
@@ -172,14 +170,11 @@ public class LoginActivity extends AppCompatActivity {
 
 
         Intent homeIntent = new Intent(LoginActivity.this,Home.class);
-        //changing intent.putextra to shared preferences userName
-        //uploadIntent.putExtra("username",n);
         startActivity(homeIntent);
         finish();
 
 
 
-        //insert to sql
     }
 
 

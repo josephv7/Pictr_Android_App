@@ -12,7 +12,7 @@ public class Splash extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
-    Boolean firstOpen;
+    Boolean loggedIn;
 
 
     @Override
@@ -27,15 +27,14 @@ public class Splash extends AppCompatActivity {
         sharedPreferences = getApplicationContext().getSharedPreferences("MyPref",MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
-        firstOpen = sharedPreferences.getBoolean("firstOpen",true);
+        loggedIn = sharedPreferences.getBoolean("loggedIn",false);
 
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
 
-                if(firstOpen){
-                    editor.putBoolean("firstOpen",false);
+                if(!loggedIn){
                     Intent loginIntent = new Intent(Splash.this,LoginActivity.class);
                     startActivity(loginIntent);
                     finish();
