@@ -171,10 +171,11 @@ public class LoginActivity extends AppCompatActivity {
         //Log.d("dropped","..........");
 
 
-        Intent uploadIntent = new Intent(LoginActivity.this,Upload.class);
+        Intent homeIntent = new Intent(LoginActivity.this,Home.class);
         //changing intent.putextra to shared preferences userName
         //uploadIntent.putExtra("username",n);
-        startActivity(uploadIntent);
+        startActivity(homeIntent);
+        finish();
 
 
 

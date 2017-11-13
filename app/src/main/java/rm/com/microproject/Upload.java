@@ -120,7 +120,7 @@ public class Upload extends AppCompatActivity {
 
 
 
-        backIntent = new Intent(Upload.this,LoginActivity.class);
+        backIntent = new Intent(Upload.this,Home.class);
 
 
 
