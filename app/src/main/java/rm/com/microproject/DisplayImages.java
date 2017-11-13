@@ -1,13 +1,15 @@
 package rm.com.microproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Display extends AppCompatActivity {
+public class DisplayImages extends AppCompatActivity {
 
 
     private RecyclerView recyclerView;
@@ -27,6 +29,9 @@ public class Display extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
 
+        mLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(mLayoutManager);
+
 
         dbHandler = new DBHandler(getApplicationContext());
         imageList = new ArrayList<ImageDetails>();
@@ -43,5 +48,13 @@ public class Display extends AppCompatActivity {
 
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent backIntent = new Intent(DisplayImages.this,Home.class);
+        startActivity(backIntent);
+        finish();
     }
 }

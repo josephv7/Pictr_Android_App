@@ -2,6 +2,7 @@ package rm.com.microproject;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,8 @@ public class DisplayAdapter extends RecyclerView.Adapter<DisplayAdapter.ViewHold
 
             imageView = itemView.findViewById(R.id.imageView);
             imageId = itemView.findViewById(R.id.imageId);
+
+            Log.d("inside","viewholder......");
         }
     }
 
@@ -67,6 +70,8 @@ public class DisplayAdapter extends RecyclerView.Adapter<DisplayAdapter.ViewHold
         ImageDetails data = imageDetails.get(position);
 
         holder.imageId.setText(data.getImageId());
+
+        Log.d("position",Integer.toString(position));
 
         Glide.with(context)
                 .load(data.getImageUrl())
