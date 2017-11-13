@@ -1,6 +1,7 @@
 package rm.com.microproject;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -25,12 +26,18 @@ public class LoginActivity extends AppCompatActivity {
     String n,p,url;
     private List<ImageDetails> imageArray;
     DBHandler dbHandler;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
+        sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -67,6 +74,13 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "Username not found!", Toast.LENGTH_SHORT).show();
                         } else {
                             if (dataSnapshot.getValue(String.class).equals(p)) {
+
+                                //adding shared preferences
+
+                                editor.putString("userName",n);
+
+
+
                                 ///////
                                 readData(rootRef.child(n), new OnGetDataListener() {
                                     @Override
@@ -158,7 +172,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
         Intent uploadIntent = new Intent(LoginActivity.this,Upload.class);
-        uploadIntent.putExtra("username",n);
+        //changing intent.putextra to shared preferences userName
+        //uploadIntent.putExtra("username",n);
         startActivity(uploadIntent);
 
 
@@ -192,5 +207,19 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+    //remove if any unnecessary
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        editor.commit();
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        editor.commit();
+    }
 }
 

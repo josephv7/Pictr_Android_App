@@ -2,6 +2,7 @@ package rm.com.microproject;
 
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -42,6 +43,8 @@ public class Upload extends AppCompatActivity {
     ImageView img;
     EditText id;
 
+    Intent backIntent;
+
     DBHandler dbHandler;
     ImageDetails imageDetails;
     List<ImageDetails> imageList;
@@ -70,6 +73,10 @@ public class Upload extends AppCompatActivity {
     //collect with intent
 
 
+    SharedPreferences sharedPreferences;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,8 +94,16 @@ public class Upload extends AppCompatActivity {
 
 
 
-        Intent collectUserName = getIntent();
-        userName = collectUserName.getStringExtra("username");
+
+        //moving to shared preferences rather than using getIntent()
+
+        sharedPreferences = getApplicationContext().getSharedPreferences("MyPref",MODE_PRIVATE);
+        userName = sharedPreferences.getString("userName",null);
+
+
+
+//        Intent collectUserName = getIntent();
+//        userName = collectUserName.getStringExtra("username");
 
         imageList = dbHandler.getAllImages();
 
@@ -102,6 +117,12 @@ public class Upload extends AppCompatActivity {
         StrictMode.setVmPolicy(builder.build());
         //the problem is caused for android N+
         //another solution is to use file provider.....change file:// to content://
+
+
+
+        backIntent = new Intent(Upload.this,LoginActivity.class);
+
+
 
 
 
@@ -162,6 +183,8 @@ public class Upload extends AppCompatActivity {
 
 //                                }
                                 //extra safety ? :p
+
+                                startActivity(backIntent);
 
 
 
@@ -406,6 +429,11 @@ public class Upload extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
 
+        startActivity(backIntent);
 
+    }
 }
