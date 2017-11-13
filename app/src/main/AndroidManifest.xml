@@ -21,7 +21,8 @@
         </activity>
         <activity android:name=".Upload" />
         <activity android:name=".Home" />
-        <activity android:name=".DisplayImages"></activity>
+        <activity android:name=".DisplayImages" />
+        <activity android:name=".Splash"></activity>
     </application>
 
 </manifest>
