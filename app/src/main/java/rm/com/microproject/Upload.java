@@ -102,9 +102,6 @@ public class Upload extends AppCompatActivity {
 
 
 
-//        Intent collectUserName = getIntent();
-//        userName = collectUserName.getStringExtra("username");
-
         imageList = dbHandler.getAllImages();
 
 
@@ -129,6 +126,8 @@ public class Upload extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                flag = 0;
 
                 imageId = id.getText().toString().toLowerCase();
 
@@ -194,6 +193,7 @@ public class Upload extends AppCompatActivity {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Toast.makeText(Upload.this,"Uh-oh, an error occurred!",Toast.LENGTH_LONG).show();
+                                Log.d("onFaliure",e.toString());
                             }
                         });
 
@@ -434,6 +434,7 @@ public class Upload extends AppCompatActivity {
         super.onBackPressed();
 
         startActivity(backIntent);
+        finish();
 
     }
 }

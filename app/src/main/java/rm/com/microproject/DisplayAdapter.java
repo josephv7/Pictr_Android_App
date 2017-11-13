@@ -75,6 +75,7 @@ public class DisplayAdapter extends RecyclerView.Adapter<DisplayAdapter.ViewHold
 
         Glide.with(context)
                 .load(data.getImageUrl())
+                .animate(R.anim.abc_fade_in)
 //                .placeholder(R.drawable.user_male)
 //                .error(R.drawable.user_male)
                 .crossFade()
