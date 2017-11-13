@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import java.util.List;
 
 /**
@@ -60,12 +63,27 @@ public class DisplayAdapter extends RecyclerView.Adapter<DisplayAdapter.ViewHold
 
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position, List<Object> payloads) {
-        super.onBindViewHolder(holder, position, payloads);
-
+    public void onBindViewHolder(ViewHolder holder, int position) {
         ImageDetails data = imageDetails.get(position);
 
         holder.imageId.setText(data.getImageId());
 
+        Glide.with(context)
+                .load(data.getImageUrl())
+//                .placeholder(R.drawable.user_male)
+//                .error(R.drawable.user_male)
+                .crossFade()
+                .override(600,600)
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                .centerCrop()
+                .into(holder.imageView);
+    }
+
+
+
+
+    @Override
+    public int getItemCount() {
+        return imageDetails.size();
     }
 }

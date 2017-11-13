@@ -36,6 +36,11 @@ public class Display extends AppCompatActivity {
 
 
 
+        mAdapter = new DisplayAdapter(getApplicationContext(),imageList);
+        recyclerView.setAdapter(mAdapter);
+
+
+
 
 
     }
