@@ -22,9 +22,9 @@ import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText username,password;
+    EditText username, password;
     Button login;
-    String n,p,url;
+    String n, p, url;
     private List<ImageDetails> imageArray;
     DBHandler dbHandler;
     SharedPreferences sharedPreferences;
@@ -32,7 +32,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
     MaterialDialog dialog;
-
 
 
     @Override
@@ -48,9 +47,6 @@ public class LoginActivity extends AppCompatActivity {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference ref = database.getReference("UserCredential");
         final DatabaseReference rootRef = database.getReference();
-
-
-
 
 
         dbHandler = new DBHandler(this);
@@ -74,92 +70,82 @@ public class LoginActivity extends AppCompatActivity {
                 dialog = new MaterialDialog.Builder(LoginActivity.this)
                         .title("loading")
                         .content("please wait")
-                        .progress(true,0)
+                        .progress(true, 0)
                         .progressIndeterminateStyle(true)
                         .show();
 
-                if ((!username.equals("") || password.equals(""))) {
+                if ((!n.equals("") && !p.equals(""))) {
 
 
+                    ref.child(n).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (!dataSnapshot.exists()) {
+                                dialog.dismiss();
+                                Toast.makeText(LoginActivity.this, "Username not found!", Toast.LENGTH_SHORT).show();
+
+                            } else {
+                                if (dataSnapshot.getValue().toString().equals(p)) {
 
 
-
-                ref.child(n).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (!dataSnapshot.exists()) {
-                            dialog.dismiss();
-                            Toast.makeText(LoginActivity.this, "Username not found!", Toast.LENGTH_SHORT).show();
-
-                        } else {
-                            if (dataSnapshot.getValue(String.class).equals(p)) {
+                                    //adding shared preferences
+                                    editor.putString("userName", n);
+                                    editor.putBoolean("loggedIn", true);
+                                    ///////
 
 
+                                    readData(rootRef.child(n), new OnGetDataListener() {
+                                        @Override
+                                        public void onSuccess(DataSnapshot dataSnapshot) {
 
 
+                                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
-                                //adding shared preferences
-                                editor.putString("userName",n);
-                                editor.putBoolean("loggedIn",true);
-                                ///////
+                                                Log.d("here", "...........");
 
-
-
-
-                                readData(rootRef.child(n), new OnGetDataListener() {
-                                    @Override
-                                    public void onSuccess(DataSnapshot dataSnapshot) {
+                                                ImageDetails imageDetails = snapshot.getValue(ImageDetails.class);
+                                                imageArray.add(imageDetails);
 
 
-                                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                                            }
 
-                                            Log.d("here","...........");
 
-                                            ImageDetails imageDetails = snapshot.getValue(ImageDetails.class);
-                                            imageArray.add(imageDetails);
-
+                                            gotImageUrl(n);
 
 
                                         }
 
+                                        @Override
+                                        public void onStart() {
+
+                                            Log.d("ONSTART", "Started");
+                                        }
+
+                                        @Override
+                                        public void onFailure() {
+                                            Log.d("onFailure", "Failed");
+                                        }
+                                    });
 
 
-
-                                        gotImageUrl(n);
-
-
-                                    }
-                                    @Override
-                                    public void onStart() {
-
-                                        Log.d("ONSTART", "Started");
-                                    }
-
-                                    @Override
-                                    public void onFailure() {
-                                        Log.d("onFailure", "Failed");
-                                    }
-                                });
+                                    /////////
 
 
-                                   /////////
-
-
-                            } else {
-                                dialog.dismiss();
-                                Toast.makeText(LoginActivity.this, "Password incorrect!!", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    dialog.dismiss();
+                                    Toast.makeText(LoginActivity.this, "Password incorrect!!", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
-                    }
-                });
+                        }
+                    });
 
 
-            }else {
+                } else {
                     dialog.dismiss();
                     Toast.makeText(LoginActivity.this, "Please enter all credentials!", Toast.LENGTH_SHORT).show();
 //                    username.setError("Required");
@@ -175,32 +161,27 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void gotImageUrl(String username){
+    private void gotImageUrl(String username) {
 
 
-
-
-        for (int j = 0;j < imageArray.size();j++)
-        {
-              dbHandler.addImage(imageArray.get(j),username);
-              Log.d("Sql added",Integer.toString(j));
+        for (int j = 0; j < imageArray.size(); j++) {
+            dbHandler.addImage(imageArray.get(j), username);
+            Log.d("Sql added", Integer.toString(j));
         }
         int count = dbHandler.getImagesCount();
-        Log.d("count",Integer.toString(count));
-
-
-
-
+        Log.d("count", Integer.toString(count));
 
 
         //dbHandler.onDrop();
         //Log.d("dropped","..........");
 
 
-        Intent homeIntent = new Intent(LoginActivity.this,Home.class);
+        dialog.dismiss();
+
+
+        Intent homeIntent = new Intent(LoginActivity.this, Home.class);
         startActivity(homeIntent);
         finish();
-
 
 
     }
@@ -209,7 +190,9 @@ public class LoginActivity extends AppCompatActivity {
     public interface OnGetDataListener {
         //make new interface for call back
         void onSuccess(DataSnapshot dataSnapshot);
+
         void onStart();
+
         void onFailure();
     }
 
@@ -228,7 +211,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
 
 
     //remove if any unnecessary
