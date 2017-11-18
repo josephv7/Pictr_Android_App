@@ -39,11 +39,10 @@ public class Splash extends AppCompatActivity {
                     startActivity(loginIntent);
                     finish();
                 }else{
-                    Intent homeIntent = new Intent(Splash.this,LoginActivity.class);
+                    Intent homeIntent = new Intent(Splash.this,Home.class);
                     startActivity(homeIntent);
                     finish();
                 }
-//TODO change back to home in second case
 
 
             }

@@ -68,10 +68,11 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 dialog = new MaterialDialog.Builder(LoginActivity.this)
-                        .title("loading")
-                        .content("please wait")
+                        .title("Logging You In")
+                        .content("Please Wait")
                         .progress(true, 0)
                         .progressIndeterminateStyle(true)
+                        .cancelable(false)
                         .show();
 
                 if ((!n.equals("") && !p.equals(""))) {
