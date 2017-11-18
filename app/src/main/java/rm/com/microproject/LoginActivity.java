@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +31,10 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
 
 
+    MaterialDialog dialog;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +50,9 @@ public class LoginActivity extends AppCompatActivity {
         final DatabaseReference rootRef = database.getReference();
 
 
+
+
+
         dbHandler = new DBHandler(this);
         dbHandler.createTable();
 
@@ -55,11 +63,20 @@ public class LoginActivity extends AppCompatActivity {
 
         login = findViewById(R.id.login);
 
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 n = username.getText().toString().toLowerCase();
                 p = password.getText().toString();
+
+
+                dialog = new MaterialDialog.Builder(LoginActivity.this)
+                        .title("loading")
+                        .content("please wait")
+                        .progress(true,0)
+                        .progressIndeterminateStyle(true)
+                        .show();
 
                 if ((!username.equals("") || password.equals(""))) {
 
@@ -71,7 +88,9 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (!dataSnapshot.exists()) {
+                            dialog.dismiss();
                             Toast.makeText(LoginActivity.this, "Username not found!", Toast.LENGTH_SHORT).show();
+
                         } else {
                             if (dataSnapshot.getValue(String.class).equals(p)) {
 
@@ -98,11 +117,11 @@ public class LoginActivity extends AppCompatActivity {
 
                                             ImageDetails imageDetails = snapshot.getValue(ImageDetails.class);
                                             imageArray.add(imageDetails);
-                                            //Log.d("Fetched Image Id",imageArray.get(i).getImageId());
-                                           // Log.d("Fetched Image url",imageArray.get(i).getImageUrl());
+
 
 
                                         }
+
 
 
 
@@ -127,6 +146,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
                             } else {
+                                dialog.dismiss();
                                 Toast.makeText(LoginActivity.this, "Password incorrect!!", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -140,7 +160,12 @@ public class LoginActivity extends AppCompatActivity {
 
 
             }else {
+                    dialog.dismiss();
                     Toast.makeText(LoginActivity.this, "Please enter all credentials!", Toast.LENGTH_SHORT).show();
+//                    username.setError("Required");
+//                    password.setError("Required");
+
+
                 }
 
             }
@@ -162,6 +187,9 @@ public class LoginActivity extends AppCompatActivity {
         }
         int count = dbHandler.getImagesCount();
         Log.d("count",Integer.toString(count));
+
+
+
 
 
 
