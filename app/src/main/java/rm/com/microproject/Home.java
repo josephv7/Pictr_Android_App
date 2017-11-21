@@ -50,19 +50,19 @@ public class Home extends AppCompatActivity {
                 .negativeText("Cancel")
                 .neutralText("Camera")
                 .cancelable(false)
+                .alwaysCallInputCallback()
                 .inputType(InputType.TYPE_CLASS_TEXT)
                 .inputRangeRes(1,20,R.color.errorColour)
                 .input("Image Id", null, new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                            if(input.equals(null)){
-                                dialog.getActionButton(DialogAction.NEUTRAL).setEnabled(false);
-                                dialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
-
-
-                            }else {
+                            if(!input.toString().equals("")){
+                                Log.d("input",input.toString());
                                 dialog.getActionButton(DialogAction.NEUTRAL).setEnabled(true);
                                 dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
+                            }else if (input.toString().equals("")){
+                                dialog.getActionButton(DialogAction.NEUTRAL).setEnabled(false);
+                                dialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
                             }
                     }
                 })
@@ -70,7 +70,7 @@ public class Home extends AppCompatActivity {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         Log.d("positive clicked","............");
-                        //
+//                        Log.d("which",which.toString());
                     }
                 }).onNegative(new MaterialDialog.SingleButtonCallback() {
                     @Override
@@ -99,6 +99,8 @@ public class Home extends AppCompatActivity {
 
 
                 dialog.show();
+
+                dialog.getActionButton(DialogAction.NEUTRAL).setEnabled(false);
 
 
 
