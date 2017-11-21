@@ -37,6 +37,9 @@
             android:layout_margin="8dp"
             android:layout_marginStart="8dp"
             android:text="X"
+            android:textColor="#fff"
+            android:background="#ff0000"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -47,6 +50,9 @@
             android:layout_marginBottom="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginEnd="8dp"
+            android:textColor="#fff"
+            android:textStyle="bold"
+            android:background="#008000"
             android:text="\u2713"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
