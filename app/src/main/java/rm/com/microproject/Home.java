@@ -97,7 +97,6 @@ public class Home extends AppCompatActivity {
         imageList = new ArrayList<ImageDetails>();
         imageList = dbHandler.getAllImages();
 
-        Log.d("tirgger value",Integer.toString(dbHandler.getImageCountFromTable()));
 
         sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         userName = sharedPreferences.getString("userName",null);
@@ -115,12 +114,13 @@ public class Home extends AppCompatActivity {
         builder2 = new MaterialDialog.Builder(Home.this)
                 .title("Logout")
                 .content("Are You Sure You Want To Logout?")
-                .positiveText("Logout")
-                .negativeText("Cancel")
+                .positiveText("Yes")
+                .negativeText("No")
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         dbHandler.onDrop();
+                        dbHandler.droprigger();
                         editor.putBoolean("loggedIn",false);
                         cancelDialog.dismiss();
                         Intent goToLogin = new Intent(Home.this,LoginActivity.class);
@@ -171,12 +171,6 @@ public class Home extends AppCompatActivity {
                             }
 
 
-//                                metadata = new StorageMetadata.Builder()
-//                                        .setContentType("image/jpg")
-//                                        .setCustomMetadata("User",userName)
-//                                        .setCustomMetadata("ImageId",imageId)
-//                                        .build();
-//
 
 
                             Log.d("input",input.toString());
@@ -318,10 +312,20 @@ public class Home extends AppCompatActivity {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent viewIntent = new Intent(Home.this, DisplayImages.class);
-                startActivity(viewIntent);
-                finish();
+
+                Log.d("trigger value", Integer.toString(dbHandler.getImageCountFromTable()));
+
+                if (dbHandler.getImageCountFromTable() > 0) {
+
+
+                    Intent viewIntent = new Intent(Home.this, DisplayImages.class);
+                    startActivity(viewIntent);
+                    finish();
+                } else {
+                    Snackbar.make(findViewById(R.id.rootView), "No Images To Display", Snackbar.LENGTH_SHORT).show();
+                }
             }
+
         });
 
 
