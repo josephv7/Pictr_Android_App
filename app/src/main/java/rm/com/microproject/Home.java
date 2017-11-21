@@ -418,10 +418,10 @@ public class Home extends AppCompatActivity {
 
 
         if (requestCode == CHECK_IMAGE){
-            if (requestCode == RESULT_OK){
+            if (resultCode == RESULT_OK){
                 uploadImage();
 
-            }else {
+            }else if(resultCode == RESULT_CANCELED){
                     /////
             }
         }
