@@ -32,6 +32,8 @@ public class ShowSelected extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_selected);
 
+        Log.d("show selected","......");
+
         img = findViewById(R.id.img);
         cross = findViewById(R.id.cross);
         tick = findViewById(R.id.tick);
