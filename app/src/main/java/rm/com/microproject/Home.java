@@ -1,6 +1,7 @@
 package rm.com.microproject;
 
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -37,6 +38,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -420,8 +422,9 @@ public class Home extends AppCompatActivity {
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
 
+                writeToFile(BitMapToString(bitmap),Home.this);
                 Intent showImage = new Intent(Home.this,ShowSelected.class);
-                showImage.putExtra("imageBitmap",BitMapToString(bitmap));
+                //showImage.putExtra("imageBitmap",BitMapToString(bitmap));
                 startActivityForResult(showImage,CHECK_IMAGE);
 //                img.setImageBitmap(bitmap);
                 //dont show here ...show in a different activity
@@ -614,6 +617,17 @@ public class Home extends AppCompatActivity {
 
 
 
+    }
+
+    private void writeToFile(String data,Context context) {
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("config.txt", Context.MODE_PRIVATE));
+            outputStreamWriter.write(data);
+            outputStreamWriter.close();
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
     }
 
 
