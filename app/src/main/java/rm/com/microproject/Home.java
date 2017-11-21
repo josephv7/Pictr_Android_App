@@ -211,41 +211,6 @@ public class Home extends AppCompatActivity {
 
 
 
-//                            StorageReference sRef = mStorageRef.child(userName).child(imageId);
-//
-//                            sRef.putFile(uploadUri,metadata).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                                @Override
-//                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//
-//                                    Toast.makeText(Upload.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
-//
-//
-////                                if (flag == 0) {
-//                                    imageDetails = new ImageDetails(imageId,taskSnapshot.getDownloadUrl().toString());
-//                                    dbHandler.addImage(imageDetails, userName);
-//
-//                                    String uploadId = mDatabaseRef.push().getKey();
-//                                    mDatabaseRef.child(uploadId).setValue(imageDetails);
-//
-////                                }
-//                                    //extra safety ? :p
-//
-//                                   /////////////////// startActivity(backIntent);
-//
-//
-//
-//
-//                                }
-//                            }).addOnFailureListener(new OnFailureListener() {
-//                                @Override
-//                                public void onFailure(@NonNull Exception e) {
-//                                    Toast.makeText(Home.this,"Uh-oh, an error occurred!",Toast.LENGTH_LONG).show();
-//                                    Log.d("onFaliure",e.toString());
-//                                }
-//                            });
-
-
-
 
 
 
