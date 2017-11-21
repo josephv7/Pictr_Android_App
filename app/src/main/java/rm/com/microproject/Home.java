@@ -25,11 +25,14 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -86,8 +89,6 @@ public class Home extends AppCompatActivity {
         logout = findViewById(R.id.logout);
 
 
-        mStorageRef = FirebaseStorage.getInstance().getReference();
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference(userName);
 
 
         dbHandler = new DBHandler(this);
@@ -97,6 +98,11 @@ public class Home extends AppCompatActivity {
         sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         userName = sharedPreferences.getString("userName",null);
         editor = sharedPreferences.edit();
+
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference(userName);
+
+
 
         StrictMode.VmPolicy.Builder builderStrict = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builderStrict.build());
@@ -557,6 +563,47 @@ public class Home extends AppCompatActivity {
         byte [] b=baos.toByteArray();
         String temp= Base64.encodeToString(b, Base64.DEFAULT);
         return temp;
+    }
+
+
+    public void uploadImage(){
+
+
+        StorageReference sRef = mStorageRef.child(userName).child(imageId);
+
+        sRef.putFile(uploadUri,metadata).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                Toast.makeText(Home.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
+
+
+//                                if (flag == 0) {
+                imageDetails = new ImageDetails(imageId,taskSnapshot.getDownloadUrl().toString());
+                dbHandler.addImage(imageDetails, userName);
+
+                String uploadId = mDatabaseRef.push().getKey();
+                mDatabaseRef.child(uploadId).setValue(imageDetails);
+
+//                                }
+                //extra safety ? :p
+
+//                startActivity(backIntent);
+
+
+
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(Home.this,"Uh-oh, an error occurred!",Toast.LENGTH_LONG).show();
+                Log.d("onFaliure",e.toString());
+            }
+        });
+
+
+
     }
 
 
