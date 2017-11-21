@@ -167,13 +167,6 @@ public class Home extends AppCompatActivity {
                                 }
 
 
-//                                metadata = new StorageMetadata.Builder()
-//                                        .setContentType("image/jpg")
-//                                        .setCustomMetadata("User",userName)
-//                                        .setCustomMetadata("ImageId",imageId)
-//                                        .build();
-//
-
 
                                 Log.d("input",input.toString());
                                 dialog.getActionButton(DialogAction.NEUTRAL).setEnabled(true);
@@ -209,45 +202,6 @@ public class Home extends AppCompatActivity {
 
 
 
-//                            StorageReference sRef = mStorageRef.child(userName).child(imageId);
-//
-//                            sRef.putFile(uploadUri,metadata).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                                @Override
-//                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//
-//                                    Toast.makeText(Upload.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
-//
-//
-////                                if (flag == 0) {
-//                                    imageDetails = new ImageDetails(imageId,taskSnapshot.getDownloadUrl().toString());
-//                                    dbHandler.addImage(imageDetails, userName);
-//
-//                                    String uploadId = mDatabaseRef.push().getKey();
-//                                    mDatabaseRef.child(uploadId).setValue(imageDetails);
-//
-////                                }
-//                                    //extra safety ? :p
-//
-//                                   /////////////////// startActivity(backIntent);
-//
-//
-//
-//
-//                                }
-//                            }).addOnFailureListener(new OnFailureListener() {
-//                                @Override
-//                                public void onFailure(@NonNull Exception e) {
-//                                    Toast.makeText(Home.this,"Uh-oh, an error occurred!",Toast.LENGTH_LONG).show();
-//                                    Log.d("onFaliure",e.toString());
-//                                }
-//                            });
-
-
-
-
-
-
-
                             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
 
@@ -266,9 +220,6 @@ public class Home extends AppCompatActivity {
 
 
                         }
-
-
-
 
 
 
@@ -415,16 +366,25 @@ public class Home extends AppCompatActivity {
 
 
         if (requestCode == LOAD_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+
+            Log.d("here load","......");
+
             Uri filePath = data.getData();
             uploadUri = data.getData();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
 
+
+                Log.d("load try","........");
+
                 Intent showImage = new Intent(Home.this,ShowSelected.class);
                 showImage.putExtra("imageBitmap",BitMapToString(bitmap));
-                startActivityForResult(showImage,CHECK_IMAGE);
-//                img.setImageBitmap(bitmap);
-                //dont show here ...show in a different activity
+
+                Log.d("bitmapstring",BitMapToString(bitmap));
+                startActivity(showImage);
+//                startActivityForResult(showImage,CHECK_IMAGE);
+
+
 
 
             } catch (IOException e) {
@@ -438,7 +398,8 @@ public class Home extends AppCompatActivity {
                 uploadImage();
 
             }else if(resultCode == RESULT_CANCELED){
-                    /////
+
+                //TODO do something here
             }
         }
 
@@ -533,10 +494,6 @@ public class Home extends AppCompatActivity {
 
 
 
-    //////////
-
-
-
 
     //We are calling this method to check the permission status
     private boolean isCameraAllowed() {
@@ -579,6 +536,8 @@ public class Home extends AppCompatActivity {
     public void uploadImage(){
 
 
+        Log.d("inside upload","......");
+
         StorageReference sRef = mStorageRef.child(userName).child(imageId);
 
         sRef.putFile(uploadUri,metadata).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -588,17 +547,13 @@ public class Home extends AppCompatActivity {
                 Toast.makeText(Home.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
 
 
-//                                if (flag == 0) {
+
                 imageDetails = new ImageDetails(imageId,taskSnapshot.getDownloadUrl().toString());
                 dbHandler.addImage(imageDetails, userName);
 
                 String uploadId = mDatabaseRef.push().getKey();
                 mDatabaseRef.child(uploadId).setValue(imageDetails);
 
-//                                }
-                //extra safety ? :p
-
-//                startActivity(backIntent);
 
 
 
