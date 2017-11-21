@@ -28,6 +28,9 @@ public class Home extends AppCompatActivity {
 
         dbHandler = new DBHandler(this);
 
+        sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
 
 
 
