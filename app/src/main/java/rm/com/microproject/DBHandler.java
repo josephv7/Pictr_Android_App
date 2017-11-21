@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,13 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String imageUrl = "image_Url";
 
 
+    private static final String tableCount = "imagecount";
+    private static final String imageno = "no_images";
+
+
+    private static final String triggerName = "increaseCount";
+
+
 
     public DBHandler(Context context) {super(context, dbName, null, dbVersion);}
 
@@ -37,7 +45,29 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         String createImageTable = "CREATE TABLE IF NOT EXISTS " + tableName + "(" +userId + " TEXT, " + imageId + " TEXT," + imageUrl + " TEXT" + ")";
         db.execSQL(createImageTable);
+        String createCountTable = "CREATE TABLE IF NOT EXISTS " + tableCount + "(" + imageno + " NUMBER" + ")";
+        db.execSQL(createCountTable);
+        db.execSQL("INSERT INTO " + tableCount + " VALUES(0);");
+        db.execSQL(makeTrigger());
 
+    }
+
+
+
+    public String makeTrigger(){
+        String createTrigger = "CREATE TRIGGER " + triggerName
+                + " AFTER INSERT "
+                + "ON " + tableName
+                + " BEGIN "
+                + "UPDATE " + tableCount + " SET " + imageno + " = " + "(SELECT " + imageno + " FROM " + tableCount + ")" + " + " + "1;"
+                + " END;";
+        return  createTrigger;
+    }
+
+
+    public void droprigger(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TRIGGER " + tableCount);
     }
 
     @Override
@@ -48,6 +78,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public void onDrop(){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DROP TABLE IF EXISTS "+tableName);
+        db.execSQL("DROP TABLE IF EXISTS "+tableCount);
     }
 
     public void addImage(ImageDetails imageDetails,String n){
@@ -73,6 +104,19 @@ public class DBHandler extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return count;
+    }
+
+
+    public int getImageCountFromTable(){
+        String query = "SELECT " + imageno + " FROM " + tableCount;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        int count = cursor.getCount();
+        Log.d("count",Integer.toString(count));
+        cursor.moveToFirst();
+        int no = cursor.getInt(cursor.getColumnIndex("no_images"));
+        return  no;
+
     }
 
     public List<ImageDetails> getAllImages(){

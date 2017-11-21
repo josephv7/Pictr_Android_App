@@ -97,6 +97,8 @@ public class Home extends AppCompatActivity {
         imageList = new ArrayList<ImageDetails>();
         imageList = dbHandler.getAllImages();
 
+        Log.d("tirgger value",Integer.toString(dbHandler.getImageCountFromTable()));
+
         sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         userName = sharedPreferences.getString("userName",null);
         editor = sharedPreferences.edit();
