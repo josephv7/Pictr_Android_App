@@ -30,8 +30,8 @@ public class Home extends AppCompatActivity {
     SharedPreferences.Editor editor;
 
 
-    MaterialDialog.Builder builder;
-    MaterialDialog dialog;
+    MaterialDialog.Builder builder1,builder2;
+    MaterialDialog dialog,cancelDialog;
 
     int flag = 0;
 
@@ -55,7 +55,34 @@ public class Home extends AppCompatActivity {
         StrictMode.VmPolicy.Builder builderStrict = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builderStrict.build());
 
-        builder = new MaterialDialog.Builder(Home.this)
+
+        builder2 = new MaterialDialog.Builder(Home.this)
+                .title("Logout")
+                .content("Are You Sure You Want To Logout?")
+                .positiveText("Logout")
+                .negativeText("Cancel")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dbHandler.onDrop();
+                        editor.putBoolean("loggedIn",false);
+                        cancelDialog.dismiss();
+                        Intent goToLogin = new Intent(Home.this,LoginActivity.class);
+                        startActivity(goToLogin);
+                        finish();
+                    }
+                }).onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        cancelDialog.dismiss();
+                    }
+                });
+
+        cancelDialog = builder2.build();
+
+
+
+        builder1 = new MaterialDialog.Builder(Home.this)
                 .title("Upload Image")
                 .content("Enter Your Choice")
                 .positiveText("Storage")
@@ -131,7 +158,7 @@ public class Home extends AppCompatActivity {
                 });
 
 
-        dialog = builder.build();
+        dialog = builder1.build();
 
 
 
@@ -170,11 +197,13 @@ public class Home extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dbHandler.onDrop();
-                editor.putBoolean("loggedIn",false);
-                Intent goToLogin = new Intent(Home.this,LoginActivity.class);
-                startActivity(goToLogin);
-                finish();
+//                dbHandler.onDrop();
+//                editor.putBoolean("loggedIn",false);
+//                Intent goToLogin = new Intent(Home.this,LoginActivity.class);
+//                startActivity(goToLogin);
+//                finish();
+
+                cancelDialog.show();
 
             }
         });
