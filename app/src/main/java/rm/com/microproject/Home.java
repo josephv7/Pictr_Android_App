@@ -149,34 +149,41 @@ public class Home extends AppCompatActivity {
                 .input("Image Id", null, new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                            if(!input.toString().equals("")){
+                        if(!input.toString().equals("")){
 
 
-                                Log.d("inside","checking duplicate");
+                            Log.d("inside","checking duplicate");
 
-                                imageId = input.toString();
+                            imageId = input.toString();
 
-                                flag = 0;
-                                //check need here
-                                for (int i = 0;i < imageList.size();i++) {
-                                    if (input.toString().equals(imageList.get(i).getImageId())){
+                            flag = 0;
+                            //check need here
+                            for (int i = 0;i < imageList.size();i++) {
+                                if (input.toString().equals(imageList.get(i).getImageId())){
 
-                                        flag = 1;
-                                        Log.d("Found","image in db");
-                                        break;
-                                    }
-
+                                    flag = 1;
+                                    Log.d("Found","image in db");
+                                    break;
                                 }
 
-
-
-                                Log.d("input",input.toString());
-                                dialog.getActionButton(DialogAction.NEUTRAL).setEnabled(true);
-                                dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
-                            }else if (input.toString().equals("")){
-                                dialog.getActionButton(DialogAction.NEUTRAL).setEnabled(false);
-                                dialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
                             }
+
+
+//                                metadata = new StorageMetadata.Builder()
+//                                        .setContentType("image/jpg")
+//                                        .setCustomMetadata("User",userName)
+//                                        .setCustomMetadata("ImageId",imageId)
+//                                        .build();
+//
+
+
+                            Log.d("input",input.toString());
+                            dialog.getActionButton(DialogAction.NEUTRAL).setEnabled(true);
+                            dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
+                        }else if (input.toString().equals("")){
+                            dialog.getActionButton(DialogAction.NEUTRAL).setEnabled(false);
+                            dialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
+                        }
 
                     }
                 })
@@ -204,6 +211,45 @@ public class Home extends AppCompatActivity {
 
 
 
+//                            StorageReference sRef = mStorageRef.child(userName).child(imageId);
+//
+//                            sRef.putFile(uploadUri,metadata).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                                @Override
+//                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//
+//                                    Toast.makeText(Upload.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
+//
+//
+////                                if (flag == 0) {
+//                                    imageDetails = new ImageDetails(imageId,taskSnapshot.getDownloadUrl().toString());
+//                                    dbHandler.addImage(imageDetails, userName);
+//
+//                                    String uploadId = mDatabaseRef.push().getKey();
+//                                    mDatabaseRef.child(uploadId).setValue(imageDetails);
+//
+////                                }
+//                                    //extra safety ? :p
+//
+//                                   /////////////////// startActivity(backIntent);
+//
+//
+//
+//
+//                                }
+//                            }).addOnFailureListener(new OnFailureListener() {
+//                                @Override
+//                                public void onFailure(@NonNull Exception e) {
+//                                    Toast.makeText(Home.this,"Uh-oh, an error occurred!",Toast.LENGTH_LONG).show();
+//                                    Log.d("onFaliure",e.toString());
+//                                }
+//                            });
+
+
+
+
+
+
+
                             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
 
@@ -222,6 +268,9 @@ public class Home extends AppCompatActivity {
 
 
                         }
+
+
+
 
 
 
@@ -368,34 +417,17 @@ public class Home extends AppCompatActivity {
 
 
         if (requestCode == LOAD_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
-
-            Log.d("here load","......");
-
             Uri filePath = data.getData();
             uploadUri = data.getData();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
 
-<<<<<<< HEAD
                 writeToFile(BitMapToString(bitmap),Home.this);
                 Intent showImage = new Intent(Home.this,ShowSelected.class);
                 //showImage.putExtra("imageBitmap",BitMapToString(bitmap));
                 startActivityForResult(showImage,CHECK_IMAGE);
 //                img.setImageBitmap(bitmap);
                 //dont show here ...show in a different activity
-=======
-
-                Log.d("load try","........");
-
-                Intent showImage = new Intent(Home.this,ShowSelected.class);
-                showImage.putExtra("imageBitmap",BitMapToString(bitmap));
-
-                Log.d("bitmapstring",BitMapToString(bitmap));
-                startActivity(showImage);
-//                startActivityForResult(showImage,CHECK_IMAGE);
-
-
->>>>>>> dce3e45816782fd1e16856b19ee4b4050f3cc132
 
 
             } catch (IOException e) {
@@ -409,8 +441,7 @@ public class Home extends AppCompatActivity {
                 uploadImage();
 
             }else if(resultCode == RESULT_CANCELED){
-
-                //TODO do something here
+                /////
             }
         }
 
@@ -505,6 +536,10 @@ public class Home extends AppCompatActivity {
 
 
 
+    //////////
+
+
+
 
     //We are calling this method to check the permission status
     private boolean isCameraAllowed() {
@@ -547,8 +582,6 @@ public class Home extends AppCompatActivity {
     public void uploadImage(){
 
 
-        Log.d("inside upload","......");
-
         StorageReference sRef = mStorageRef.child(userName).child(imageId);
 
         sRef.putFile(uploadUri,metadata).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -558,13 +591,17 @@ public class Home extends AppCompatActivity {
                 Toast.makeText(Home.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
 
 
-
+//                                if (flag == 0) {
                 imageDetails = new ImageDetails(imageId,taskSnapshot.getDownloadUrl().toString());
                 dbHandler.addImage(imageDetails, userName);
 
                 String uploadId = mDatabaseRef.push().getKey();
                 mDatabaseRef.child(uploadId).setValue(imageDetails);
 
+//                                }
+                //extra safety ? :p
+
+//                startActivity(backIntent);
 
 
 
