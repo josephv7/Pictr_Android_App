@@ -282,15 +282,7 @@ public class Home extends AppCompatActivity {
 
 
 
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                            if (isCameraAllowed()){
-                                openCamera();
-                                return;
-                            }
-                            requestCamera();
-                        }else {
-                            openCamera();
-                        }
+
 
 
 
@@ -304,7 +296,25 @@ public class Home extends AppCompatActivity {
                             dialog.dismiss();
                             showSnackBar();
                         }else {
+
+
+                            metadata = new StorageMetadata.Builder()
+                                    .setContentType("image/jpg")
+                                    .setCustomMetadata("User",userName)
+                                    .setCustomMetadata("ImageId",imageId)
+                                    .build();
+
+
                             Log.d("Negative else",".........");
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                                if (isCameraAllowed()){
+                                    openCamera();
+                                    return;
+                                }
+                                requestCamera();
+                            }else {
+                                openCamera();
+                            }
                         }
                     }
                 });
