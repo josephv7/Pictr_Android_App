@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +26,8 @@ public class Home extends AppCompatActivity {
     MaterialDialog.Builder builder;
     MaterialDialog dialog;
 
+    int inputFlag;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,19 +47,35 @@ public class Home extends AppCompatActivity {
                 .title("Upload Image")
                 .content("Enter Your Choice")
                 .positiveText("Storage")
-                .negativeText("Camera")
+                .negativeText("Cancel")
+                .neutralText("Camera")
                 .cancelable(false)
+                .inputType(InputType.TYPE_CLASS_TEXT)
+                .inputRangeRes(1,20,R.color.errorColour)
+                .input("Image Id", null, new MaterialDialog.InputCallback() {
+                    @Override
+                    public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                            //
+                    }
+                })
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         Log.d("positive clicked","............");
+                        //
                     }
                 }).onNegative(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         Log.d("negative clicked","............");
                     }
+                }).onNeutral(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        Log.d("negative neutral","............");
+                    }
                 });
+
 
         dialog = builder.build();
 
