@@ -3,6 +3,7 @@ package rm.com.microproject;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -51,6 +52,9 @@ public class Home extends AppCompatActivity {
         sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
+        StrictMode.VmPolicy.Builder builderStrict = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builderStrict.build());
+
         builder = new MaterialDialog.Builder(Home.this)
                 .title("Upload Image")
                 .content("Enter Your Choice")
@@ -67,10 +71,12 @@ public class Home extends AppCompatActivity {
                             if(!input.toString().equals("")){
 
 
+                                Log.d("inside","checking duplicate");
 
 
+                                flag = 0;
+                                //check need here
                                 for (int i = 0;i < imageList.size();i++) {
-                                    Log.d("inside","checking duplicate");
                                     if (input.toString().equals(imageList.get(i).getImageId())){
 
                                         flag = 1;
@@ -102,6 +108,9 @@ public class Home extends AppCompatActivity {
                         }else{
                             Log.d("positive else",".......");
                         }
+
+
+
                     }
                 }).onNegative(new MaterialDialog.SingleButtonCallback() {
                     @Override
