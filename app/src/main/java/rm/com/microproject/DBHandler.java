@@ -67,7 +67,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public void droprigger(){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DROP TRIGGER " + tableCount);
+        db.execSQL("DROP TRIGGER " + triggerName);
     }
 
     @Override

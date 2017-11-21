@@ -119,8 +119,8 @@ public class Home extends AppCompatActivity {
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dbHandler.onDrop();
                         dbHandler.droprigger();
+                        dbHandler.onDrop();
                         editor.putBoolean("loggedIn",false);
                         cancelDialog.dismiss();
                         Intent goToLogin = new Intent(Home.this,LoginActivity.class);
