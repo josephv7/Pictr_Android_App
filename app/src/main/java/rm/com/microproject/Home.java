@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
@@ -13,12 +14,17 @@ import android.widget.Button;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Home extends AppCompatActivity {
 
 
     Button upload,view,logout;
 
     DBHandler dbHandler;
+    List<ImageDetails> imageList;
+
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
@@ -26,7 +32,7 @@ public class Home extends AppCompatActivity {
     MaterialDialog.Builder builder;
     MaterialDialog dialog;
 
-    int inputFlag;
+    int flag = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +45,8 @@ public class Home extends AppCompatActivity {
 
 
         dbHandler = new DBHandler(this);
+        imageList = new ArrayList<ImageDetails>();
+        imageList = dbHandler.getAllImages();
 
         sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -57,6 +65,21 @@ public class Home extends AppCompatActivity {
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                             if(!input.toString().equals("")){
+
+
+
+
+                                for (int i = 0;i < imageList.size();i++) {
+                                    Log.d("inside","checking duplicate");
+                                    if (input.toString().equals(imageList.get(i).getImageId())){
+
+                                        flag = 1;
+                                        Log.d("Found","image in db");
+                                        break;
+                                    }
+
+                                }
+
                                 Log.d("input",input.toString());
                                 dialog.getActionButton(DialogAction.NEUTRAL).setEnabled(true);
                                 dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
@@ -64,6 +87,7 @@ public class Home extends AppCompatActivity {
                                 dialog.getActionButton(DialogAction.NEUTRAL).setEnabled(false);
                                 dialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
                             }
+
                     }
                 })
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
@@ -71,6 +95,13 @@ public class Home extends AppCompatActivity {
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         Log.d("positive clicked","............");
 //                        Log.d("which",which.toString());
+
+                        if (flag == 1){
+                            dialog.dismiss();
+                            showSnackBar();
+                        }else{
+                            Log.d("positive else",".......");
+                        }
                     }
                 }).onNegative(new MaterialDialog.SingleButtonCallback() {
                     @Override
@@ -81,6 +112,12 @@ public class Home extends AppCompatActivity {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         Log.d("negative neutral","............");
+                        if(flag == 1){
+                            dialog.dismiss();
+                            showSnackBar();
+                        }else {
+                            Log.d("Negative else",".........");
+                        }
                     }
                 });
 
@@ -96,6 +133,8 @@ public class Home extends AppCompatActivity {
             public void onClick(View v) {
 //                Intent uploadIntent = new Intent(Home.this,Upload.class);
 //                startActivity(uploadIntent);
+
+                flag = 0;
 
 
                 dialog.show();
@@ -138,5 +177,10 @@ public class Home extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         editor.commit();
+    }
+
+
+    void showSnackBar(){
+        Snackbar.make(findViewById(R.id.rootView),"Id Already Exists",Snackbar.LENGTH_SHORT).show();
     }
 }
