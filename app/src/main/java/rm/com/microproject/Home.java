@@ -22,6 +22,7 @@ public class Home extends AppCompatActivity {
     SharedPreferences.Editor editor;
 
 
+    MaterialDialog.Builder builder;
     MaterialDialog dialog;
 
     @Override
@@ -39,21 +40,25 @@ public class Home extends AppCompatActivity {
         sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
-        dialog = new MaterialDialog.Builder(Home.this)
-                .title("Enter You Choice")
-                .content("Please Wait")
+        builder = new MaterialDialog.Builder(Home.this)
+                .title("Upload Image")
+                .content("Enter Your Choice")
                 .positiveText("Storage")
                 .negativeText("Camera")
-                .progress(true, 0)
-                .progressIndeterminateStyle(true)
                 .cancelable(false)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         Log.d("positive clicked","............");
                     }
-                })
-                .show();
+                }).onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        Log.d("negative clicked","............");
+                    }
+                });
+
+        dialog = builder.build();
 
 
 
@@ -62,10 +67,13 @@ public class Home extends AppCompatActivity {
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent uploadIntent = new Intent(Home.this,Upload.class);
-                startActivity(uploadIntent);
+//                Intent uploadIntent = new Intent(Home.this,Upload.class);
+//                startActivity(uploadIntent);
 
-                finish();
+
+                dialog.show();
+
+
 
             }
         });
