@@ -55,7 +55,15 @@ public class Home extends AppCompatActivity {
                 .input("Image Id", null, new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                            //
+                            if(input.equals(null)){
+                                dialog.getActionButton(DialogAction.NEUTRAL).setEnabled(false);
+                                dialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
+
+
+                            }else {
+                                dialog.getActionButton(DialogAction.NEUTRAL).setEnabled(true);
+                                dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
+                            }
                     }
                 })
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
