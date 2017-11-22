@@ -55,8 +55,8 @@ public class Home extends AppCompatActivity {
     SharedPreferences.Editor editor;
 
 
-    MaterialDialog.Builder builder1,builder2;
-    MaterialDialog dialog,cancelDialog;
+    MaterialDialog.Builder builder1,builder2,builder3;
+    MaterialDialog dialog,cancelDialog,uploadingDialog;
 
     int flag = 0;
 
@@ -111,6 +111,26 @@ public class Home extends AppCompatActivity {
         StrictMode.setVmPolicy(builderStrict.build());
 
 
+
+//        uploadingDialog = new MaterialDialog.Builder(Home.this)
+//                .title("Uploading Image")
+//                .content("Please Wait")
+//                .progress(true, 0)
+//                .progressIndeterminateStyle(true)
+//                .cancelable(false)
+//                .show();
+
+
+        builder3 = new MaterialDialog.Builder(Home.this)
+                .title("Uploading Image")
+                .content("Please Wait")
+                .progress(true, 0)
+                .progressIndeterminateStyle(true)
+                .cancelable(false);
+
+        uploadingDialog = builder3.build();
+
+
         builder2 = new MaterialDialog.Builder(Home.this)
                 .title("Logout")
                 .content("Are You Sure You Want To Logout?")
@@ -119,7 +139,7 @@ public class Home extends AppCompatActivity {
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dbHandler.droprigger();
+                        dbHandler.droptrigger();
                         dbHandler.onDrop();
                         editor.putBoolean("loggedIn",false);
                         cancelDialog.dismiss();
@@ -553,13 +573,17 @@ public class Home extends AppCompatActivity {
     public void uploadImage(){
 
 
+
+        uploadingDialog.show();
+
+
         StorageReference sRef = mStorageRef.child(userName).child(imageId);
 
         sRef.putFile(uploadUri,metadata).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                Toast.makeText(Home.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(Home.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
 
 
 //                                if (flag == 0) {
@@ -568,6 +592,11 @@ public class Home extends AppCompatActivity {
 
                 String uploadId = mDatabaseRef.push().getKey();
                 mDatabaseRef.child(uploadId).setValue(imageDetails);
+
+                uploadingDialog.dismiss();
+
+                Snackbar.make(findViewById(R.id.rootView),"Image Uploaded Successfully",Snackbar.LENGTH_SHORT).show();
+
 
 //                                }
                 //extra safety ? :p
@@ -581,7 +610,10 @@ public class Home extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(Home.this,"Uh-oh, an error occurred!",Toast.LENGTH_LONG).show();
+
+                uploadingDialog.dismiss();
+
+                Snackbar.make(findViewById(R.id.rootView),"Error Uploading Image",Snackbar.LENGTH_LONG).show();
                 Log.d("onFaliure",e.toString());
             }
         });
