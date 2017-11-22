@@ -5,24 +5,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/gradient"
     android:id="@+id/rootView"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
     tools:context="rm.com.microproject.Home">
 
     <Button
         android:id="@+id/upload"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/input"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="190dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
         android:text="Upload" />
 
     <Button
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/input"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="30dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
         android:text="View" />
 
     <Button
         android:id="@+id/logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/input"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="30dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
         android:text="Logout" />
 </LinearLayout>
