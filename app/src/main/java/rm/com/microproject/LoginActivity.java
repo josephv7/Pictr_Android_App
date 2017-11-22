@@ -33,6 +33,8 @@ public class LoginActivity extends AppCompatActivity {
 
     MaterialDialog dialog;
 
+    Boolean checkTriggerCreation;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +46,29 @@ public class LoginActivity extends AppCompatActivity {
         editor = sharedPreferences.edit();
 
 
+
+
+        checkTriggerCreation = sharedPreferences.getBoolean("firstTimeInLogin",true);
+        editor.putBoolean("firstTimeInLogin",false);
+
+
+
+        dbHandler = new DBHandler(this);
+        dbHandler.createTable();
+        if(checkTriggerCreation){
+
+            Log.d("making trigger","trigger creation");
+            dbHandler.makeTrigger();
+        }
+
+
+
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference ref = database.getReference("UserCredential");
         final DatabaseReference rootRef = database.getReference();
 
 
-        dbHandler = new DBHandler(this);
-        dbHandler.createTable();
+
 
         imageArray = new ArrayList<ImageDetails>();
 

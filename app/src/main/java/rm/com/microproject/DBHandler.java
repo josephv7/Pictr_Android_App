@@ -32,6 +32,9 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
 
+
+
+
     public DBHandler(Context context) {super(context, dbName, null, dbVersion);}
 
     @Override
@@ -48,20 +51,21 @@ public class DBHandler extends SQLiteOpenHelper {
         String createCountTable = "CREATE TABLE IF NOT EXISTS " + tableCount + "(" + imageno + " NUMBER" + ")";
         db.execSQL(createCountTable);
         db.execSQL("INSERT INTO " + tableCount + " VALUES(0);");
-        db.execSQL(makeTrigger());
+//        db.execSQL(makeTrigger());
 
     }
 
 
 
-    public String makeTrigger(){
+    public void makeTrigger(){
         String createTrigger = "CREATE TRIGGER " + triggerName
                 + " AFTER INSERT "
                 + "ON " + tableName
                 + " BEGIN "
                 + "UPDATE " + tableCount + " SET " + imageno + " = " + "(SELECT " + imageno + " FROM " + tableCount + ")" + " + " + "1;"
                 + " END;";
-        return  createTrigger;
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(createTrigger);
     }
 
 
