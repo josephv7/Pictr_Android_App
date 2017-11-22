@@ -55,11 +55,11 @@ public class LoginActivity extends AppCompatActivity {
 
         dbHandler = new DBHandler(this);
         dbHandler.createTable();
-        if(checkTriggerCreation){
-
-            Log.d("making trigger","trigger creation");
-            dbHandler.makeTrigger();
-        }
+//        if(checkTriggerCreation){
+//
+//            Log.d("making trigger","trigger creation");
+//            dbHandler.makeTrigger();
+//        }
 
 
 
@@ -110,8 +110,13 @@ public class LoginActivity extends AppCompatActivity {
                                     //adding shared preferences
                                     editor.putString("userName", n);
                                     editor.putBoolean("loggedIn", true);
+
+
                                     ///////
 
+                                    //creating trigger here
+                                    Log.d("making trigger","trigger creation");
+                                    dbHandler.makeTrigger();
 
                                     readData(rootRef.child(n), new OnGetDataListener() {
                                         @Override
