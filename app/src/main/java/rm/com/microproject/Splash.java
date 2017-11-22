@@ -23,6 +23,7 @@ public class Splash extends AppCompatActivity {
 
 
 
+        //TODO add typeface
 
         sharedPreferences = getApplicationContext().getSharedPreferences("MyPref",MODE_PRIVATE);
         editor = sharedPreferences.edit();
