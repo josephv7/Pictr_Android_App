@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DatabaseMicroProject.iml" filepath="$PROJECT_DIR$/DatabaseMicroProject.iml" />
-      <module fileurl="file://$PROJECT_DIR$/MicroProject.iml" filepath="$PROJECT_DIR$/MicroProject.iml" />
       <module fileurl="file://E:\AndroidPgms\DatabaseMicroProject\MicroProject.iml" filepath="E:\AndroidPgms\DatabaseMicroProject\MicroProject.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
