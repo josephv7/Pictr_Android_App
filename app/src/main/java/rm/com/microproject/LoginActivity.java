@@ -48,6 +48,9 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+
+
+
         checkTriggerCreation = sharedPreferences.getBoolean("firstTimeInLogin",true);
         editor.putBoolean("firstTimeInLogin",false);
 
