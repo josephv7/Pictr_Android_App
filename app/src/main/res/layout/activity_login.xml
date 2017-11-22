@@ -37,10 +37,10 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/input"
+            android:hint="Username"
             android:ems="10"
             android:inputType="textPersonName"
             android:padding="10dp"
-            android:text="user1"
             tools:layout_editor_absoluteX="113dp"
             tools:layout_editor_absoluteY="34dp" />
 
@@ -52,10 +52,10 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/input"
+            android:hint="Password"
             android:ems="10"
             android:inputType="textPassword"
-            android:padding="10dp"
-            android:text="pass1" />
+            android:padding="10dp" />
 
         <Button
             android:id="@+id/login"
