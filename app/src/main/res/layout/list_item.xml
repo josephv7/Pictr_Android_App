@@ -9,7 +9,7 @@
     android:layout_marginLeft="10dp">
 
 
-    <LinearLayoutgit
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -29,7 +29,7 @@
             android:id="@+id/imageId"
             android:paddingBottom="5dp"/>
 
-</LinearLayoutgit>
+</LinearLayout>
 
 
 
