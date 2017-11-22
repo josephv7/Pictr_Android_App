@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#7f7fff"
+    android:background="@drawable/gradient"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     tools:context="rm.com.microproject.LoginActivity">
@@ -16,8 +16,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_marginTop="60dp"
-        android:background="@drawable/layoutback"
+        android:layout_marginTop="80dp"
+
         android:orientation="vertical"
         android:paddingBottom="40dp">
 
@@ -27,7 +27,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="30dp"
             android:layout_marginTop="30dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/image" />
 
         <EditText
             android:id="@+id/username"
