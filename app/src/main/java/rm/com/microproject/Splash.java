@@ -2,9 +2,11 @@ package rm.com.microproject;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 
 public class Splash extends AppCompatActivity {
 
@@ -14,6 +16,9 @@ public class Splash extends AppCompatActivity {
 
     Boolean loggedIn;
 
+    TextView splashText;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,9 +26,15 @@ public class Splash extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
 
+        splashText = findViewById(R.id.textView);
 
 
-        //TODO add typeface
+
+
+        Typeface bebas = Typeface.createFromAsset(getAssets(),  "fonts/bebasneue.ttf");
+
+        splashText.setTypeface(bebas);
+
 
         sharedPreferences = getApplicationContext().getSharedPreferences("MyPref",MODE_PRIVATE);
         editor = sharedPreferences.edit();
