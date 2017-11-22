@@ -112,7 +112,13 @@ public class Home extends AppCompatActivity {
 
 
 
-
+//        uploadingDialog = new MaterialDialog.Builder(Home.this)
+//                .title("Uploading Image")
+//                .content("Please Wait")
+//                .progress(true, 0)
+//                .progressIndeterminateStyle(true)
+//                .cancelable(false)
+//                .show();
 
 
         builder3 = new MaterialDialog.Builder(Home.this)
@@ -147,7 +153,6 @@ public class Home extends AppCompatActivity {
                         cancelDialog.dismiss();
                     }
                 });
-        //
 
         cancelDialog = builder2.build();
 
@@ -307,7 +312,8 @@ public class Home extends AppCompatActivity {
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+//                Intent uploadIntent = new Intent(Home.this,Upload.class);
+//                startActivity(uploadIntent);
 
                 flag = 0;
 
@@ -346,7 +352,11 @@ public class Home extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+//                dbHandler.onDrop();
+//                editor.putBoolean("loggedIn",false);
+//                Intent goToLogin = new Intent(Home.this,LoginActivity.class);
+//                startActivity(goToLogin);
+//                finish();
 
                 cancelDialog.show();
 
@@ -405,7 +415,10 @@ public class Home extends AppCompatActivity {
 
                 writeToFile(BitMapToString(bitmap),Home.this);
                 Intent showImage = new Intent(Home.this,ShowSelected.class);
+                //showImage.putExtra("imageBitmap",BitMapToString(bitmap));
                 startActivityForResult(showImage,CHECK_IMAGE);
+//                img.setImageBitmap(bitmap);
+                //dont show here ...show in a different activity
 
 
             } catch (IOException e) {
@@ -514,6 +527,7 @@ public class Home extends AppCompatActivity {
 
 
 
+    //////////
 
 
 
@@ -537,7 +551,9 @@ public class Home extends AppCompatActivity {
     private void requestCamera(){
 
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.CAMERA)){
-
+            //If the user has denied the permission previously your code will come to this block
+            //Here you can explain why you need this permission
+            //Explain here why you need this permission
         }
 
         //And finally ask for the permission
@@ -567,6 +583,10 @@ public class Home extends AppCompatActivity {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
+                //Toast.makeText(Home.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
+
+
+//                                if (flag == 0) {
                 imageDetails = new ImageDetails(imageId,taskSnapshot.getDownloadUrl().toString());
                 dbHandler.addImage(imageDetails, userName);
 
@@ -576,6 +596,12 @@ public class Home extends AppCompatActivity {
                 uploadingDialog.dismiss();
 
                 Snackbar.make(findViewById(R.id.rootView),"Image Uploaded Successfully",Snackbar.LENGTH_SHORT).show();
+
+
+//                                }
+                //extra safety ? :p
+
+//                startActivity(backIntent);
 
 
 
