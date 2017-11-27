@@ -144,21 +144,6 @@ public class DBHandler extends SQLiteOpenHelper {
         return imagesqlList;
     }
 
-    /*public int updateStudent(Student student){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(nameTable,student.getName());
-        values.put(roll_noTable,student.getRoll_no());
-        values.put(ageTable,student.getAge());
-        return db.update(tableName, values, roll_noTable + " = ?",
-                new String[] { String.valueOf(student.getRoll_no()) });
-    }
 
-    public void deleteStudent(Student student) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(tableName, roll_noTable + " = ?",
-                new String[] { String.valueOf(student.getRoll_no()) });
-        db.close();
-    }*/
 
 }
