@@ -4,3 +4,5 @@
 Micro Project For Application Software Lab
 
 [SQLiteOpenHelper Official Android Documentation](https://developer.android.com/reference/android/database/sqlite/SQLiteOpenHelper.html)
+
+Android app to store users images online in firebase storage. SQLlite was used to store the data locally in mobile device.
